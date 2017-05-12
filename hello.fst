@@ -106,3 +106,12 @@ let rec fibonacci_greater_than_arg n =
   | 2 -> () 
   | _ -> admit() //f* can prove the lemma automatically
   //| _ -> fibonacci_greater_than_arg (n-1) //manual lemma proving
+
+
+type list2 'a =
+| Nil : list2 'a
+| Cons : hd: 'a -> tl: list2 'a -> list2 'a
+
+let rec append l1 l2 = match l1 with
+| [] -> l2
+| hd::tl -> hd :: append tl l2
