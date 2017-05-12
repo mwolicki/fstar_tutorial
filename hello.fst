@@ -82,7 +82,7 @@ let mul a b = a * b
 
 type nat =x:int{x>=0}
 
-val fib: int -> int
+val fib: nat -> nat
 let rec fib x = 
   if x <= 1 then 1 
   else fib (x-1) + fib (x-2)
@@ -90,3 +90,13 @@ let rec fib x =
 
 //lemmas
 //GTot = ghost total function
+
+//assert(forall x. fib x > 0)
+
+val fib_is_possitive: x:nat -> GTot(u:unit{fib x>0})
+let rec fib_is_possitive x =
+  match x with
+  | 0 -> ()
+  | _ -> fib_is_possitive (x-1)
+
+
