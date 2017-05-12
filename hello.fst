@@ -92,11 +92,16 @@ let rec fib x =
 //GTot = ghost total function
 
 //assert(forall x. fib x > 0)
-
-val fib_is_possitive: x:nat -> GTot(u:unit{fib x>0})
+val fib_is_possitive: x:nat -> Lemma(fib x>0)
+//val fib_is_possitive: x:nat -> GTot(u:unit{fib x>0})
 let rec fib_is_possitive x =
   match x with
   | 0 -> ()
   | _ -> fib_is_possitive (x-1)
 
 
+val fibonacci_greater_than_arg : n:nat{n >= 2} -> Lemma (fib n >= n)
+let rec fibonacci_greater_than_arg n =
+  match n with
+  | 2 -> ()
+  | _ -> fibonacci_greater_than_arg (n-1)
