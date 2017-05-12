@@ -64,5 +64,29 @@ val new_counter: int -> ML (unit -> ML int)
 let new_counter init =
   let c = ST.alloc init in
   fun () -> c := !c + 1; !c
-  
 
+
+//Statically checked assertions
+
+
+let max a b = if a > b then a else b
+
+let a = assert (max 0 1 = 1)
+
+let b = assert (forall x y. 
+		  max x y >= x 
+		  && max x y >= y 
+		  && (max x y = x || max x y = y))
+
+let mul a b = a * b
+
+type nat =x:int{x>=0}
+
+val fib: int -> int
+let rec fib x = 
+  if x <= 1 then 1 
+  else fib (x-1) + fib (x-2)
+
+
+//lemmas
+//GTot = ghost total function
