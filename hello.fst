@@ -60,4 +60,9 @@ let div a b = a + b
 
 //let main = staticChecking () (*; dynamicChecking () *)
 
+val new_counter: int -> ML (unit -> ML int)
+let new_counter init =
+  let c = ST.alloc init in
+  fun () -> c := !c + 1; !c
+  
 
