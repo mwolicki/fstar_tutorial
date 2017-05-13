@@ -177,3 +177,10 @@ let rec take_has_correct_length l n = match l with
 | hd::tl -> if n > 1 then take_has_correct_length tl (n-1)
 	  else ()
 
+
+//5. Terminating
+val ackermann: m:nat -> n:nat -> Tot nat
+let rec ackermann m n =
+  if m=0 then n + 1
+  else if n = 0 then ackermann (m - 1) 1
+  else ackermann (m - 1) (ackermann m (n - 1))
