@@ -142,3 +142,38 @@ let rec append_mem #t l1 l2 a =
   | [] -> ()
   | hd::tl -> append_mem tl l2 a
 
+//4.2. To type intrinsically, or to prove lemmas?
+
+val reverse: list 'a -> Tot (list 'a)
+let rec reverse l = match l with
+  | [] -> []
+  | hd :: tl -> append (reverse tl) [hd]
+
+
+type option 'a =
+  | None : option 'a
+  | Some : v:'a -> option 'a
+
+(* The intrinsic style is more convenient in this case *)
+val find : f:('a -> Tot bool) -> list 'a -> Tot (option (x:'a{f x}))
+let rec find f l = match l with
+  | [] -> None
+  | hd::tl -> if f hd then Some hd else find f tl
+
+
+val nth: l: list 'a -> n: nat{length l > n} -> 'a
+let rec nth l n = match l with
+| hd::tl -> if n > 0 then nth tl (n - 1)
+	  else hd
+
+val take: l: list 'a -> n: nat{length l > n && n > 0} -> r:list 'a
+let rec take l n = match l with
+| hd::tl -> if n > 1 then hd :: take tl (n - 1)
+	  else [hd]
+
+val take_has_correct_length : l:list 'a -> n: nat{length l > n && n > 0} 
+			      -> Lemma (ensures (length(take l n)) = n)
+let rec take_has_correct_length l n = match l with
+| hd::tl -> if n > 1 then take_has_correct_length tl (n-1)
+	  else ()
+
